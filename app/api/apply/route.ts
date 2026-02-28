@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Resend client will be created on demand inside request handler to avoid
+// build-time evaluation (which fails if the API key is missing during
+// build).
 
 // Try to extract a plausible HR/careers email from employer info
 function deriveEmployerEmail(employerName: string, employerWebsite: string | null): string | null {
@@ -111,6 +113,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Email service not configured" }, { status: 500 })
     }
 
+    const resend = new Resend(process.env.RESEND_API_KEY)
     const results = []
 
     for (const job of jobs) {

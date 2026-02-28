@@ -7,7 +7,8 @@ export async function GET(request: NextRequest) {
   const employmentType = searchParams.get("employment_type") || ""
   const datePosted = searchParams.get("date_posted") || "all"
 
-  const apiKey = process.env.NEXT_PUBLIC_RAPIDAPI_KEY
+  // prefer server-only variable; fallback to public if set
+  const apiKey = process.env.RAPIDAPI_KEY || process.env.NEXT_PUBLIC_RAPIDAPI_KEY
   if (!apiKey) {
     return NextResponse.json(
       { error: "API key not configured" },
