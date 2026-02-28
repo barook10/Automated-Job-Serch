@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
 
-const resend = new Resend("re_F2F6Cip4_EWAczLfUDE7rAVB7EUB6JeHT")
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 // Try to extract a plausible HR/careers email from employer info
 function deriveEmployerEmail(employerName: string, employerWebsite: string | null): string | null {
